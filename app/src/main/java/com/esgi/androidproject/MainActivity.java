@@ -8,6 +8,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import com.viewpagerindicator.CirclePageIndicator;
+import com.viewpagerindicator.LinePageIndicator;
+import com.viewpagerindicator.TitlePageIndicator;
+
 public class MainActivity extends FragmentActivity {
 
     private static final int NUM_PAGES = 4;
@@ -21,9 +25,13 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+
+        mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mPagerAdapter);
+
+        CirclePageIndicator indicator = (CirclePageIndicator) findViewById(R.id.indicator);
+        indicator.setViewPager(mPager);
     }
 
     @Override
