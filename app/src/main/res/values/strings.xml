@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">AndroidProject</string>
+    <string name="app_name">WhereToEat</string>
+    <string name="restaurants_list">Liste des restaurants</string>
+    <string name="search">Recherche</string>
+    <string name="filter">Filtres</string>
 </resources>
