@@ -1,4 +1,4 @@
-package com.esgi.androidproject;
+package com.esgi.androidproject.controller;
 
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -7,8 +7,12 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.view.View;
 
+import com.esgi.androidproject.R;
+import com.esgi.androidproject.controller.fragment.ListPageFragment;
+import com.esgi.androidproject.controller.fragment.MapPageFragment;
+import com.esgi.androidproject.controller.fragment.OptionPageFragment;
+import com.esgi.androidproject.controller.fragment.SharePageFragment;
 import com.viewpagerindicator.CirclePageIndicator;
 
 public class MainActivity extends FragmentActivity {

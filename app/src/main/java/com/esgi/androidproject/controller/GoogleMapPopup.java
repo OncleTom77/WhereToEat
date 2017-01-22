@@ -1,8 +1,9 @@
-package com.esgi.androidproject;
+package com.esgi.androidproject.controller;
 
 import android.view.View;
 import android.widget.TextView;
 
+import com.esgi.androidproject.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 

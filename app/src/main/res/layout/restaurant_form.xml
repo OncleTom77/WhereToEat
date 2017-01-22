@@ -24,6 +24,6 @@
             android:hint="@string/restaurant_name_hint"
             android:id="@+id/editText"
             android:layout_weight="8" />
-        
+
     </LinearLayout>
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.esgi.androidproject;
+package com.esgi.androidproject.controller.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.esgi.androidproject.controller.GoogleMapPopup;
+import com.esgi.androidproject.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
