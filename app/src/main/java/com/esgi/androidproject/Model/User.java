@@ -1,4 +1,4 @@
-package com.esgi.androidproject;
+package com.esgi.androidproject.Model;
 
 /**
  * Created by thomasfouan on 22/01/2017.

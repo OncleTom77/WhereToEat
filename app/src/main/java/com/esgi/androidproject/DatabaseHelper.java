@@ -4,6 +4,10 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.esgi.androidproject.Model.Meal;
+import com.esgi.androidproject.Model.Restaurant;
+import com.esgi.androidproject.Model.User;
+
 /**
  * Created by thomasfouan on 22/01/2017.
  */

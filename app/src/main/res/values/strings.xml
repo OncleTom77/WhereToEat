@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">WhereToEat</string>
     <string name="restaurants_list">Liste des restaurants</string>
-    <string name="search">Recherche</string>
+    <string name="search_hint">Recherche …</string>
     <string name="filter">Filtres</string>
+    <string name="add_a_restaurant">Ajouter un restaurant :</string>
+    <string name="restaurant_name_hint">Nom du restaurant …</string>
 </resources>
