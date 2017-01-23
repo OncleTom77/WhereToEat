@@ -133,6 +133,11 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
                 if(isAdding) {
                     Marker marker = mMap.addMarker(new MarkerOptions().position(latLng));
                     marker.showInfoWindow();
+                    RestaurantFormFragment nextFrag = new RestaurantFormFragment();
+                    getActivity().getFragmentManager().beginTransaction()
+                            .replace(R.id.map_layout, nextFrag, "Restaurant form")
+                            .addToBackStack(null)
+                            .commit();
                     isAdding = false;
                 }
             }

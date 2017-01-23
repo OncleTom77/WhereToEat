@@ -11,19 +11,17 @@
         android:id="@+id/textView2"
         android:textSize="30sp" />
 
-    <LinearLayout
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="5dp">
+        android:inputType="textPersonName"
+        android:hint="@string/restaurant_name_hint"
+        android:id="@+id/editText" />
 
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="@string/restaurant_name_hint"
-            android:id="@+id/editText"
-            android:layout_weight="8" />
-
-    </LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_the_restaurant"
+        android:layout_gravity="bottom"
+        android:id="@+id/add_restaurant_form"/>
 </LinearLayout>
