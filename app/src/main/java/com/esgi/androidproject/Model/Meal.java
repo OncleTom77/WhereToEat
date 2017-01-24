@@ -6,18 +6,18 @@ package com.esgi.androidproject.model;
 
 public class Meal {
 
-    private static final String TABLE_NAME = "MEAL";
-    private static final String ID = "_ID";
-    private static final String ID_USER = "_ID_USER";
-    private static final String ID_RESTAURANT = "_ID_RESTAURANT";
-    private static final String NAME = "NAME";
-    private static final String MARK = "MARK";
-    private static final String PRICE = "PRICE";
-    private static final String STARTER = "STARTER";
-    private static final String DISH = "DISH";
-    private static final String DESSERT = "DESSERT";
-    private static final String DRINK = "DRINK";
-    private static final String COMMENT = "COMMENT";
+    public static final String TABLE_NAME = "MEAL";
+    public static final String ID = "_ID";
+    public static final String ID_USER = "_ID_USER";
+    public static final String ID_RESTAURANT = "_ID_RESTAURANT";
+    public static final String NAME = "NAME";
+    public static final String MARK = "MARK";
+    public static final String PRICE = "PRICE";
+    public static final String STARTER = "STARTER";
+    public static final String DISH = "DISH";
+    public static final String DESSERT = "DESSERT";
+    public static final String DRINK = "DRINK";
+    public static final String COMMENT = "COMMENT";
     public static final String DB_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
             ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             ID_USER + " INTEGER FOREIGN KEY, " +
@@ -35,17 +35,17 @@ public class Meal {
     /**
      * The ID in the database of the meal.
      */
-    private String id;
+    private long id;
 
     /**
      * The ID in the database of the user who ate the meal.
      */
-    private String idUser;
+    private long idUser;
 
     /**
      * The ID in the database of the restaurant where the user ate the meal.
      */
-    private String idRestaurant;
+    private long idRestaurant;
 
     /**
      * The name of the meal.
@@ -89,7 +89,7 @@ public class Meal {
 
 
 
-    public Meal(String id, String idUser, String idRestaurant, String name, double price, int mark, String starter, String dish, String dessert, String drink, String comment) {
+    public Meal(long id, long idUser, long idRestaurant, String name, double price, int mark, String starter, String dish, String dessert, String drink, String comment) {
         this.id = id;
         this.idUser = idUser;
         this.idRestaurant = idRestaurant;
@@ -108,27 +108,27 @@ public class Meal {
 
 
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getIdUser() {
+    public long getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(String idUser) {
+    public void setIdUser(long idUser) {
         this.idUser = idUser;
     }
 
-    public String getIdRestaurant() {
+    public long getIdRestaurant() {
         return idRestaurant;
     }
 
-    public void setIdRestaurant(String idRestaurant) {
+    public void setIdRestaurant(long idRestaurant) {
         this.idRestaurant = idRestaurant;
     }
 
