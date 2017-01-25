@@ -10,6 +10,7 @@ import com.esgi.androidproject.model.Meal;
 import com.esgi.androidproject.model.Restaurant;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -43,6 +44,7 @@ public class MealDBHelper {
         values.put(Meal.MARK, meal.getMark());
         values.put(Meal.PRICE, meal.getPrice());
         values.put(Meal.COMMENT, meal.getComment());
+        values.put(Meal.DATE, meal.getDate().toString());
 
         long idNewMeal = db.insert(Meal.TABLE_NAME, null, values);
 
@@ -82,6 +84,7 @@ public class MealDBHelper {
             meal.setMark(cursor.getInt(cursor.getColumnIndex(Meal.MARK)));
             meal.setPrice(cursor.getDouble(cursor.getColumnIndex(Meal.PRICE)));
             meal.setComment(cursor.getString(cursor.getColumnIndex(Meal.COMMENT)));
+            meal.setDate(new Date(cursor.getString(cursor.getColumnIndex(Meal.DATE))));
 
             result.add(meal);
         }

@@ -6,4 +6,11 @@
     <string name="add_a_restaurant">Ajouter un restaurant :</string>
     <string name="restaurant_name_hint">Nom du restaurant …</string>
     <string name="add_the_restaurant">Ajouter le restaurant</string>
+    <string name="meal_form_title">Repas du</string>
+    <string name="meal_name_hint">Ajouter le nom du repas …</string>
+    <string name="add_a_mark">Ajouter une note :</string>
+    <string name="meal_price_hint">Ajouter le prix …</string>
+    <string name="meal_description_hint">Ajouter une description …</string>
+    <string name="add_the_meal">Ajouter un repas :</string>
+    <string name="restaurant_title_meal_form">Nom du restaurant</string>
 </resources>

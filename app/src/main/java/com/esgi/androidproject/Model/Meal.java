@@ -1,5 +1,7 @@
 package com.esgi.androidproject.model;
 
+import java.util.Date;
+
 /**
  * Created by thomasfouan on 22/01/2017.
  */
@@ -18,6 +20,7 @@ public class Meal {
     public static final String DESSERT = "DESSERT";
     public static final String DRINK = "DRINK";
     public static final String COMMENT = "COMMENT";
+    public static final String DATE = "DATE";
     public static final String DB_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
             ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             ID_USER + " INTEGER FOREIGN KEY, " +
@@ -30,6 +33,7 @@ public class Meal {
             DESSERT + " VARCHAR, " +
             DRINK + " VARCHAR, " +
             COMMENT + " VARCHAR" +
+            DATE + " DATETIME" +
             ")";
 
     /**
@@ -87,6 +91,7 @@ public class Meal {
      */
     private String comment;
 
+    private Date date;
 
 
     public Meal(long id, long idUser, long idRestaurant, String name, double price, int mark, String starter, String dish, String dessert, String drink, String comment) {
@@ -101,6 +106,7 @@ public class Meal {
         this.dessert = dessert;
         this.drink = drink;
         this.comment = comment;
+        this.date = date;
     }
 
     public Meal() {
@@ -195,4 +201,8 @@ public class Meal {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    public Date getDate() {return date;}
+
+    public void setDate(Date date) {this.date = date;}
 }
