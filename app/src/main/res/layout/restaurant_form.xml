@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:hint="@string/restaurant_name_hint"
-        android:id="@+id/editText" />
+        android:id="@+id/editRestaurantName" />
 
     <Button
         android:layout_width="match_parent"

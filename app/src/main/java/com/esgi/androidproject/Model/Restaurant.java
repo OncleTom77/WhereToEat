@@ -55,15 +55,6 @@ public class Restaurant {
 
 
 
-    public Restaurant(long id, String name, int mark, Double longitude, Double latitude) {
-        this.id = id;
-        this.name = name;
-        this.mark = mark;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.meals = new ArrayList<>();
-    }
-
     public Restaurant() {
     }
 

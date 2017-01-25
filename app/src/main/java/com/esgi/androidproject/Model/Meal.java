@@ -23,8 +23,8 @@ public class Meal {
     public static final String DATE = "DATE";
     public static final String DB_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
             ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            ID_USER + " INTEGER FOREIGN KEY, " +
-            ID_RESTAURANT + " INTEGER FOREIGN KEY, " +
+            ID_USER + " INTEGER, " +
+            ID_RESTAURANT + " INTEGER, " +
             NAME + " VARCHAR, " +
             MARK + " INTEGER, " +
             PRICE + " DOUBLE, " +
@@ -94,20 +94,6 @@ public class Meal {
     private Date date;
 
 
-    public Meal(long id, long idUser, long idRestaurant, String name, double price, int mark, String starter, String dish, String dessert, String drink, String comment) {
-        this.id = id;
-        this.idUser = idUser;
-        this.idRestaurant = idRestaurant;
-        this.name = name;
-        this.price = price;
-        this.mark = mark;
-        this.starter = starter;
-        this.dish = dish;
-        this.dessert = dessert;
-        this.drink = drink;
-        this.comment = comment;
-        this.date = date;
-    }
 
     public Meal() {
     }

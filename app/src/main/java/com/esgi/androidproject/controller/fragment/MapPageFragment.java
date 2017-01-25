@@ -12,6 +12,8 @@ import android.widget.Button;
 
 import com.esgi.androidproject.controller.GoogleMapPopup;
 import com.esgi.androidproject.R;
+import com.esgi.androidproject.database.DAORestaurant;
+import com.esgi.androidproject.model.Restaurant;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -30,6 +32,8 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
 
 import static com.esgi.androidproject.R.layout.map;
 
@@ -133,7 +137,14 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
                 if(isAdding) {
                     Marker marker = mMap.addMarker(new MarkerOptions().position(latLng));
                     marker.showInfoWindow();
+
                     RestaurantFormFragment nextFrag = new RestaurantFormFragment();
+
+                    Bundle bundle = new Bundle();
+                    bundle.putDouble("lat", latLng.latitude);
+                    bundle.putDouble("long", latLng.longitude);
+                    nextFrag.setArguments(bundle);
+
                     getActivity().getFragmentManager().beginTransaction()
                             .replace(R.id.map_layout, nextFrag, "Restaurant form")
                             .addToBackStack(null)
@@ -206,9 +217,11 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        //LatLng sydney = new LatLng(-34, 151);
+        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        loadRestaurants();
 
         configureGoogleMap();
     }
@@ -238,5 +251,22 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    private void loadRestaurants() {
+
+        DAORestaurant daoRestaurant = new DAORestaurant(getActivity());
+
+        List<Restaurant> restaurants = daoRestaurant.getRestaurants();
+        LatLng latLng = null;
+
+        for(Restaurant res : restaurants) {
+            latLng = new LatLng(res.getLatitude(), res.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(latLng).title(res.getName()));
+        }
+
+        if(latLng != null) {
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        }
     }
 }

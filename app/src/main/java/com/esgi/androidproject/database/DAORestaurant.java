@@ -3,8 +3,6 @@ package com.esgi.androidproject.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 
 import com.esgi.androidproject.model.Meal;
 import com.esgi.androidproject.model.Restaurant;
@@ -12,21 +10,13 @@ import com.esgi.androidproject.model.Restaurant;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.content.Context.MODE_PRIVATE;
-
 /**
  * Created by thomasfouan on 24/01/2017.
  */
-public class RestaurantDBHelper {
+public class DAORestaurant extends DAOBase {
 
-    private SQLiteDatabase db;
-
-    public RestaurantDBHelper(DatabaseHelper dbHelper, Context context) {
-        try {
-            db = dbHelper.getWritableDatabase();
-        } catch (SQLiteException e) {
-            db = context.openOrCreateDatabase(DatabaseHelper.DB_NAME, MODE_PRIVATE, null);
-        }
+    public DAORestaurant(Context context) {
+        super(context);
     }
 
     public long insertRestaurant(Restaurant restaurant) {
@@ -60,7 +50,7 @@ public class RestaurantDBHelper {
     public List<Restaurant> getRestaurants() {
 
         List<Restaurant> result = new ArrayList<>();
-        MealDBHelper mealDBHelper = new MealDBHelper(db);
+        DAOMeal mealDBHelper = new DAOMeal(db);
 
         // SELECT
         Cursor cursor = db.query(Restaurant.TABLE_NAME, null, null, null, null, null, null);

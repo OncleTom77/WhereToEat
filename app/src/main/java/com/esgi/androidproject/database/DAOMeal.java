@@ -18,20 +18,14 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * Created by thomasfouan on 24/01/2017.
  */
-public class MealDBHelper {
+public class DAOMeal extends DAOBase {
 
-    private SQLiteDatabase db;
-
-    public MealDBHelper(DatabaseHelper dbHelper, Context context) {
-        try {
-            db = dbHelper.getWritableDatabase();
-        } catch (SQLiteException e) {
-            db = context.openOrCreateDatabase(DatabaseHelper.DB_NAME, MODE_PRIVATE, null);
-        }
+    public DAOMeal(Context context) {
+        super(context);
     }
 
-    public MealDBHelper(SQLiteDatabase db) {
-        this.db = db;
+    public DAOMeal(SQLiteDatabase db) {
+        super(db);
     }
 
     public long insertMeal(Meal meal) {
@@ -72,7 +66,7 @@ public class MealDBHelper {
         List<Meal> result = new ArrayList<>();
 
         // SELECT
-        Cursor cursor = db.query(Meal.TABLE_NAME, null, Meal.ID_RESTAURANT, new String[]{Long.toString(idRestaurant)}, null, null, null);
+        Cursor cursor = db.query(Meal.TABLE_NAME, null, Meal.ID_RESTAURANT + " = ?", new String[]{Long.toString(idRestaurant)}, null, null, null);
 
         while(cursor.moveToNext()) {
             Meal meal = new Meal();

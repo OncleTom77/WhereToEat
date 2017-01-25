@@ -3,6 +3,7 @@ package com.esgi.androidproject.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.esgi.androidproject.model.Meal;
 import com.esgi.androidproject.model.Restaurant;
@@ -13,7 +14,7 @@ import com.esgi.androidproject.model.User;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String DB_NAME = "esgi";
+    public static final String DB_NAME = "esgi.db";
     private static final int DB_VERSION = 1;
 
     public DatabaseHelper(Context context) {
@@ -26,6 +27,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(User.DB_CREATE_TABLE);
         db.execSQL(Restaurant.DB_CREATE_TABLE);
         db.execSQL(Meal.DB_CREATE_TABLE);
+
+        System.out.println("db created");
     }
 
     @Override
