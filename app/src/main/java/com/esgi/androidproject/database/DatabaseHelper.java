@@ -1,4 +1,4 @@
-package com.esgi.androidproject.utils.database;
+package com.esgi.androidproject.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,10 +11,9 @@ import com.esgi.androidproject.model.User;
 /**
  * Created by thomasfouan on 22/01/2017.
  */
-
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "esgi";
+    public static final String DB_NAME = "esgi";
     private static final int DB_VERSION = 1;
 
     public DatabaseHelper(Context context) {

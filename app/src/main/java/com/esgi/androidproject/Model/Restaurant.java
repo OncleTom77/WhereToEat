@@ -1,17 +1,20 @@
 package com.esgi.androidproject.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by thomasfouan on 22/01/2017.
  */
 
 public class Restaurant {
 
-    private static final String TABLE_NAME = "RESTAURANT";
-    private static final String ID = "_ID";
-    private static final String NAME = "NAME";
-    private static final String LONGITUDE = "LONGITUDE";
-    private static final String LATITUDE = "LATITUDE";
-    private static final String MARK = "MARK";
+    public static final String TABLE_NAME = "RESTAURANT";
+    public static final String ID = "_ID";
+    public static final String NAME = "NAME";
+    public static final String LONGITUDE = "LONGITUDE";
+    public static final String LATITUDE = "LATITUDE";
+    public static final String MARK = "MARK";
     public static final String DB_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
             ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             NAME + " VARCHAR, " +
@@ -23,7 +26,7 @@ public class Restaurant {
     /**
      * The ID in the database of the restaurant.
      */
-    private String id;
+    private long id;
 
     /**
      * The name of the restaurant.
@@ -45,14 +48,20 @@ public class Restaurant {
      */
     private Double latitude;
 
+    /**
+     * The list of the meals eaten in this restaurant.
+     */
+    private List<Meal> meals;
 
 
-    public Restaurant(String id, String name, int mark, Double longitude, Double latitude) {
+
+    public Restaurant(long id, String name, int mark, Double longitude, Double latitude) {
         this.id = id;
         this.name = name;
         this.mark = mark;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.meals = new ArrayList<>();
     }
 
     public Restaurant() {
@@ -60,11 +69,11 @@ public class Restaurant {
 
 
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -98,5 +107,13 @@ public class Restaurant {
 
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
+    }
+
+    public List<Meal> getMeals() {
+        return meals;
+    }
+
+    public void setMeals(List<Meal> meals) {
+        this.meals = meals;
     }
 }
