@@ -83,7 +83,6 @@ public class DAOMeal extends DAOBase {
             result.add(meal);
         }
 
-        cursor.close();
         return result;
     }
 }

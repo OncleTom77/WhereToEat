@@ -10,7 +10,6 @@ import com.google.android.gms.maps.model.Marker;
 /**
  * Created by thomasfouan on 22/01/2017.
  */
-
 public class GoogleMapPopup implements GoogleMap.InfoWindowAdapter {
 
     View view;

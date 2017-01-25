@@ -268,5 +268,7 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
         if(latLng != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         }
+
+        daoRestaurant.close();
     }
 }

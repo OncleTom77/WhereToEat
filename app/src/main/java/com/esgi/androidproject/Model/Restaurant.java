@@ -107,4 +107,15 @@ public class Restaurant {
     public void setMeals(List<Meal> meals) {
         this.meals = meals;
     }
+
+    @Override
+    public String toString() {
+
+        String markString = "";
+        for(int i=1; i<=5; i++) {
+            markString += (mark >= i) ? "★" : "☆";
+        }
+
+        return name + " - " + markString;
+    }
 }

@@ -23,13 +23,14 @@ public class DAORestaurant extends DAOBase {
 
         ContentValues values = new ContentValues();
         values.put(Restaurant.NAME, restaurant.getName());
+        values.put(Restaurant.MARK, restaurant.getMark());
         values.put(Restaurant.LONGITUDE, restaurant.getLongitude());
         values.put(Restaurant.LATITUDE, restaurant.getLatitude());
 
         long id = db.insert(Restaurant.TABLE_NAME, null, values);
 
         if(id == -1) {
-            // Erreur lors de l'insertion !!!!!!!
+            System.out.println("ERREUR LORS DE L'INSERTION DU RESTAURANT");
         }
 
         return id;
@@ -41,7 +42,7 @@ public class DAORestaurant extends DAOBase {
         int nbDeleted = db.delete(Restaurant.TABLE_NAME, Restaurant.ID + " = ?", new String[]{Long.toString(id)});
 
         if(nbDeleted != 1) {
-            // Attention !!
+            System.out.println("ERREUR LORS DE LA SUPPRESSION DU RESTAURANT");
         }
 
         return nbDeleted;
@@ -67,10 +68,21 @@ public class DAORestaurant extends DAOBase {
             List<Meal> meals = mealDBHelper.getRestaurantMeals(restaurant.getId());
             restaurant.setMeals(meals);
 
+            // Set the mark of the restaurant by getting an average of the meals of the restaurant
+            int mark = 0;
+            if(meals.size() > 0) {
+                for (Meal m : meals) {
+                    mark += m.getMark();
+                }
+                mark = mark / meals.size();
+            }
+            restaurant.setMark(mark);
+
             result.add(restaurant);
         }
 
         cursor.close();
+
         return result;
     }
 }

@@ -30,7 +30,6 @@ public abstract class DAOBase {
         } catch (SQLiteException e) {
             db = context.openOrCreateDatabase(DatabaseHelper.DB_NAME, MODE_PRIVATE, null);
         }
-        System.out.println(db.isOpen());
     }
 
     public void close() {

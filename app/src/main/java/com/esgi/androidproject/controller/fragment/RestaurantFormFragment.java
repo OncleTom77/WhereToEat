@@ -15,7 +15,6 @@ import com.esgi.androidproject.model.Restaurant;
 /**
  * Created by Vincent on 23/01/2017.
  */
-
 public class RestaurantFormFragment extends Fragment{
 
     private double latitude;
@@ -51,18 +50,19 @@ public class RestaurantFormFragment extends Fragment{
     private void addRestaurant() {
 
         EditText editText = (EditText) getActivity().findViewById(R.id.editRestaurantName);
-        String name = editText.getText().toString();
+        String name = editText.getText().toString().trim();
 
-        if(name != null && !"".equals(name)) {
+        if(!"".equals(name)) {
 
             Restaurant restaurant = new Restaurant();
             restaurant.setName(name);
+            restaurant.setMark(0);
             restaurant.setLatitude(latitude);
             restaurant.setLongitude(longitude);
 
-            DAORestaurant DAORestaurant = new DAORestaurant(getActivity());
-
-            DAORestaurant.insertRestaurant(restaurant);
+            DAORestaurant daoRestaurant = new DAORestaurant(getActivity());
+            daoRestaurant.insertRestaurant(restaurant);
+            daoRestaurant.close();
         }
     }
 }
