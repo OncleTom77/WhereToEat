@@ -1,7 +1,7 @@
 package com.esgi.androidproject.controller;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -16,6 +16,7 @@ import com.esgi.androidproject.R;
 import com.esgi.androidproject.controller.MainActivity;
 import com.esgi.androidproject.controller.fragment.ListPageFragment;
 import com.esgi.androidproject.controller.fragment.MapPageFragment;
+import com.esgi.androidproject.controller.fragment.MealCardFragment;
 import com.esgi.androidproject.controller.fragment.OptionPageFragment;
 import com.esgi.androidproject.controller.fragment.SharePageFragment;
 import com.viewpagerindicator.CirclePageIndicator;
@@ -41,7 +42,6 @@ public class MealListActivity extends FragmentActivity {
 
         CirclePageIndicator indicator = (CirclePageIndicator) findViewById (R.id.indicator);
         indicator.setViewPager(pager);
-
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
@@ -50,16 +50,16 @@ public class MealListActivity extends FragmentActivity {
         }
 
         @Override
-        public android.support.v4.app.Fragment getItem(int position) {
+        public Fragment getItem(int position) {
             switch (position){
                 case 0:
-                    return new MapPageFragment();
+                    return new MealCardFragment();
                 case 1:
-                    return new ListPageFragment();
+                    return new MealCardFragment();
                 case 2:
-                    return new SharePageFragment();
+                    return new MealCardFragment();
                 case 3:
-                    return new OptionPageFragment();
+                    return new MealCardFragment();
                 default:
                     return null;
             }
