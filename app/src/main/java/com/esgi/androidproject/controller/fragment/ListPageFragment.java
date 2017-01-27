@@ -1,15 +1,17 @@
 package com.esgi.androidproject.controller.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.esgi.androidproject.R;
+import com.esgi.androidproject.controller.MealListActivity;
 import com.esgi.androidproject.database.DAORestaurant;
 import com.esgi.androidproject.model.Restaurant;
 
@@ -37,9 +39,17 @@ public class ListPageFragment extends Fragment {
         List<Restaurant> list = daoRestaurant.getRestaurants();
         daoRestaurant.close();
 
-        ArrayAdapter<Restaurant> adapter = new ArrayAdapter<>(getActivity(),
+        final ArrayAdapter<Restaurant> adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1,
                 list);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Restaurant restaurant = (Restaurant) parent.getItemAtPosition(position);
+                startActivity(new Intent(getActivity(), MealListActivity.class));
+            }
+        });
 
         listView.setAdapter(adapter);
     }
