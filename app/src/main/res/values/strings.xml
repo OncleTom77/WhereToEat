@@ -13,4 +13,5 @@
     <string name="meal_description_hint">Ajouter une description …</string>
     <string name="add_the_meal">Ajouter un repas :</string>
     <string name="restaurant_title_meal_form">Nom du restaurant</string>
+    <string name="mark">Note :</string>
 </resources>
