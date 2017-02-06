@@ -1,7 +1,7 @@
 package com.esgi.androidproject.controller.fragment;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +9,14 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.esgi.androidproject.R;
+import com.esgi.androidproject.controller.MainActivity;
 import com.esgi.androidproject.database.DAORestaurant;
 import com.esgi.androidproject.model.Restaurant;
 
 /**
  * Created by Vincent on 23/01/2017.
  */
-public class RestaurantFormFragment extends Fragment{
+public class RestaurantFormFragment extends Fragment {
 
     private double latitude;
 
@@ -34,7 +35,6 @@ public class RestaurantFormFragment extends Fragment{
                 getActivity().onBackPressed();
             }
         });
-
 
         this.latitude = getArguments().getDouble("lat");
         this.longitude = getArguments().getDouble("long");
@@ -56,13 +56,15 @@ public class RestaurantFormFragment extends Fragment{
 
             Restaurant restaurant = new Restaurant();
             restaurant.setName(name);
-            restaurant.setMark(0);
+            restaurant.setMark(4);
             restaurant.setLatitude(latitude);
             restaurant.setLongitude(longitude);
 
             DAORestaurant daoRestaurant = new DAORestaurant(getActivity());
             daoRestaurant.insertRestaurant(restaurant);
             daoRestaurant.close();
+
+            ((MainActivity) getActivity()).updateMapFragment(this);
         }
     }
 }

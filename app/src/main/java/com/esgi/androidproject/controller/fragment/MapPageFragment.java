@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.JsonWriter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import com.esgi.androidproject.controller.GoogleMapPopup;
 import com.esgi.androidproject.R;
 import com.esgi.androidproject.database.DAORestaurant;
+import com.esgi.androidproject.model.Meal;
 import com.esgi.androidproject.model.Restaurant;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -33,6 +35,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 import static com.esgi.androidproject.R.layout.map;
@@ -46,6 +51,8 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
     private GoogleApiClient googleApiClient;
 
     private boolean isAdding;
+
+    private boolean isReady = false;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -86,6 +93,7 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public void onResume() {
         super.onResume();
+        System.out.println("ON RESUME !!");
         //if (mMap == null) {
           //  mMap = mapFragment.getMap();
             //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
@@ -132,29 +140,51 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
             @Override
             public void onMapClick(LatLng latLng) {
                 if(googleApiClient.isConnected()) {
-                    search();
+                    //search();
                 }
                 if(isAdding) {
-                    Marker marker = mMap.addMarker(new MarkerOptions().position(latLng));
-                    marker.showInfoWindow();
-
-                    RestaurantFormFragment nextFrag = new RestaurantFormFragment();
+                    //Marker marker = mMap.addMarker(new MarkerOptions().position(latLng));
+                    //marker.showInfoWindow();
+                    //newRestaurantPos = latLng;
 
                     Bundle bundle = new Bundle();
                     bundle.putDouble("lat", latLng.latitude);
                     bundle.putDouble("long", latLng.longitude);
+
+                    RestaurantFormFragment nextFrag = new RestaurantFormFragment();
                     nextFrag.setArguments(bundle);
 
-                    getActivity().getFragmentManager().beginTransaction()
+                    getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.map_layout, nextFrag, "Restaurant form")
                             .addToBackStack(null)
                             .commit();
+
                     isAdding = false;
                 }
             }
         });
 
         mMap.setInfoWindowAdapter(new GoogleMapPopup(view));
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                long id;
+
+                try {
+                    String jsonArgs = marker.getSnippet();
+                    JSONObject object = new JSONObject(jsonArgs);
+
+                    id = object.getLong("id");
+                } catch (JSONException e) {
+                    id = -1;
+                }
+
+                // START ACTIVITY OF ALL MEALS OF THE RESTAURANT WITH ID = id
+                if(id != -1) {
+
+                }
+            }
+        });
 
         this.isAdding = false;
     }
@@ -253,7 +283,7 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
 
     }
 
-    private void loadRestaurants() {
+    public void loadRestaurants() {
 
         DAORestaurant daoRestaurant = new DAORestaurant(getActivity());
 
@@ -262,7 +292,13 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
 
         for(Restaurant res : restaurants) {
             latLng = new LatLng(res.getLatitude(), res.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(latLng).title(res.getName()));
+
+            String jsonArgs = "{"
+                    + "id: " + res.getId()
+                    + ", name: " + res.getName()
+                    + ", mark: " + res.getStarsMark()
+                    + "}";
+            mMap.addMarker(new MarkerOptions().position(latLng).title(res.getName()).snippet(jsonArgs));
         }
 
         if(latLng != null) {

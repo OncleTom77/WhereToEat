@@ -68,15 +68,8 @@ public class DAORestaurant extends DAOBase {
             List<Meal> meals = mealDBHelper.getRestaurantMeals(restaurant.getId());
             restaurant.setMeals(meals);
 
-            // Set the mark of the restaurant by getting an average of the meals of the restaurant
-            int mark = 0;
-            if(meals.size() > 0) {
-                for (Meal m : meals) {
-                    mark += m.getMark();
-                }
-                mark = mark / meals.size();
-            }
-            restaurant.setMark(mark);
+            // Set the mark of the restaurant by getting an average of the meal's mark of the restaurant
+            restaurant.setMark(getMarkFromMeals(meals));
 
             result.add(restaurant);
         }
@@ -84,5 +77,18 @@ public class DAORestaurant extends DAOBase {
         cursor.close();
 
         return result;
+    }
+
+    private int getMarkFromMeals(List<Meal> meals) {
+
+        int mark = 0;
+        if(meals.size() > 0) {
+            for (Meal m : meals) {
+                mark += m.getMark();
+            }
+            mark /= meals.size();
+        }
+
+        return mark;
     }
 }

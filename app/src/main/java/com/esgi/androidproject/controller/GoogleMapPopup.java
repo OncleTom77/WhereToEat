@@ -7,12 +7,15 @@ import com.esgi.androidproject.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by thomasfouan on 22/01/2017.
  */
 public class GoogleMapPopup implements GoogleMap.InfoWindowAdapter {
 
-    View view;
+    private View view;
 
     public GoogleMapPopup(View view) {
         this.view = view;
@@ -26,15 +29,29 @@ public class GoogleMapPopup implements GoogleMap.InfoWindowAdapter {
     @Override
     public View getInfoContents(Marker marker) {
 
-        TextView name = (TextView) view.findViewById(R.id.restaurantName);
-        TextView note = (TextView) view.findViewById(R.id.restaurantNote);
+        TextView nameView = (TextView) view.findViewById(R.id.restaurantName);
+        TextView markView = (TextView) view.findViewById(R.id.restaurantNote);
+        String name;
+        String mark;
 
-        if(marker.getTitle() != null && !marker.getTitle().equals("")) {
-            name.setText(marker.getTitle());
-        } else {
-            name.setText("Döner Kebab");
-            note.setText("★★★★☆");
+        try {
+            String jsonArgs = marker.getSnippet();
+            JSONObject object = new JSONObject(jsonArgs);
+
+            name = (String) object.get("name");
+            mark = (String) object.get("mark");
+        } catch (JSONException e) {
+            name = marker.getTitle();
+            mark = "☆☆☆☆☆";
         }
+
+        if(name == null || name.equals("")) {
+            name = "Döner Kebab";
+            markView.setText("★★★★☆");
+        }
+
+        nameView.setText(name);
+        markView.setText(mark);
 
         return view;
     }

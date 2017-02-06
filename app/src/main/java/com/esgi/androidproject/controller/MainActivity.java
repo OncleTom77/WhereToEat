@@ -71,4 +71,19 @@ public class MainActivity extends FragmentActivity {
             return NUM_PAGES;
         }
     }
+
+    public void updateMapFragment(Fragment currentFragment) {
+
+        FragmentManager manager = getSupportFragmentManager();
+
+        for(Fragment fragment : manager.getFragments()) {
+            if(fragment != null
+                    && fragment.getId() != currentFragment.getId()
+                    && fragment.isVisible()
+                    && fragment instanceof MapPageFragment) {
+                System.out.println("LOAD IN UPDATE");
+                ((MapPageFragment) fragment).loadRestaurants();
+            }
+        }
+    }
 }
