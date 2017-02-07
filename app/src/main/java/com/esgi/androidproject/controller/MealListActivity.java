@@ -17,8 +17,10 @@ import com.esgi.androidproject.controller.MainActivity;
 import com.esgi.androidproject.controller.fragment.ListPageFragment;
 import com.esgi.androidproject.controller.fragment.MapPageFragment;
 import com.esgi.androidproject.controller.fragment.MealCardFragment;
+import com.esgi.androidproject.controller.fragment.MealFormFragment;
 import com.esgi.androidproject.controller.fragment.OptionPageFragment;
 import com.esgi.androidproject.controller.fragment.SharePageFragment;
+import com.esgi.androidproject.model.Restaurant;
 import com.viewpagerindicator.CirclePageIndicator;
 
 /**
@@ -27,12 +29,14 @@ import com.viewpagerindicator.CirclePageIndicator;
 
 public class MealListActivity extends FragmentActivity {
 
-    private static final int NUM_PAGES = 5;
-
     private PagerAdapter mPagerAdapter;
+    private Restaurant restaurant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Bundle b = getIntent().getExtras();
+        this.restaurant = (Restaurant) b.getSerializable("restaurant");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.meals_list);
 
@@ -51,23 +55,17 @@ public class MealListActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            switch (position){
-                case 0:
-                    return new MealCardFragment();
-                case 1:
-                    return new MealCardFragment();
-                case 2:
-                    return new MealCardFragment();
-                case 3:
-                    return new MealCardFragment();
-                default:
-                    return null;
+            int mealsNumber = restaurant.getMeals().size();
+            if(position < mealsNumber){
+                return new MealCardFragment();
+            } else {
+                return new MealFormFragment();
             }
         }
 
         @Override
         public int getCount() {
-            return NUM_PAGES;
+            return restaurant.getMeals().size() + 1;
         }
     }
 }

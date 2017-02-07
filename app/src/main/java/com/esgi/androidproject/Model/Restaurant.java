@@ -1,5 +1,6 @@
 package com.esgi.androidproject.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  * Created by thomasfouan on 22/01/2017.
  */
 
-public class Restaurant {
+public class Restaurant implements Serializable {
 
     public static final String TABLE_NAME = "RESTAURANT";
     public static final String ID = "_ID";

@@ -47,8 +47,12 @@ public class ListPageFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Restaurant restaurant = (Restaurant) parent.getItemAtPosition(position);
-                startActivity(new Intent(getActivity(), MealListActivity.class));
+                Restaurant restaurant = (Restaurant) parent.getItemAtPosition(position);
+                Intent i = new Intent(getActivity(), MealListActivity.class);
+                Bundle b = new Bundle();
+                b.putSerializable("restaurant", restaurant);
+                i.putExtras(b);
+                startActivity(i);
             }
         });
 

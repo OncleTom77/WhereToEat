@@ -15,6 +15,7 @@ import com.esgi.androidproject.controller.fragment.OptionPageFragment;
 import com.esgi.androidproject.controller.fragment.SharePageFragment;
 import com.viewpagerindicator.CirclePageIndicator;
 
+
 public class MainActivity extends FragmentActivity {
 
     private static final int NUM_PAGES = 4;

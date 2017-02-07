@@ -1,12 +1,13 @@
 package com.esgi.androidproject.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by thomasfouan on 22/01/2017.
  */
 
-public class Meal {
+public class Meal implements Serializable {
 
     public static final String TABLE_NAME = "MEAL";
     public static final String ID = "_ID";
