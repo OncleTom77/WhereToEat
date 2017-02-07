@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.JsonWriter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.Button;
 import com.esgi.androidproject.controller.GoogleMapPopup;
 import com.esgi.androidproject.R;
 import com.esgi.androidproject.database.DAORestaurant;
-import com.esgi.androidproject.model.Meal;
 import com.esgi.androidproject.model.Restaurant;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -51,8 +49,6 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
     private GoogleApiClient googleApiClient;
 
     private boolean isAdding;
-
-    private boolean isReady = false;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -93,7 +89,6 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public void onResume() {
         super.onResume();
-        System.out.println("ON RESUME !!");
         //if (mMap == null) {
           //  mMap = mapFragment.getMap();
             //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
