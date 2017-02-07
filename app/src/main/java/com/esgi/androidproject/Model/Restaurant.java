@@ -81,6 +81,16 @@ public class Restaurant implements Serializable {
         return mark;
     }
 
+    public String getStarsMark() {
+        String stars = "";
+
+        for(int i=1; i<=5; i++) {
+            stars += (mark >= i) ? "★" : "☆";
+        }
+
+        return stars;
+    }
+
     public void setMark(int mark) {
         this.mark = mark;
     }
@@ -112,11 +122,6 @@ public class Restaurant implements Serializable {
     @Override
     public String toString() {
 
-        String markString = "";
-        for(int i=1; i<=5; i++) {
-            markString += (mark >= i) ? "★" : "☆";
-        }
-
-        return name + " - " + markString;
+        return name + " - " + getStarsMark();
     }
 }
