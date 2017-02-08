@@ -7,18 +7,23 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/buttonTop"
-        android:text="@android:string/ok" />
+        android:id="@+id/nearestBtn"
+        android:text="Le plus proche" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/buttonBottom"
-        android:text="@android:string/cancel" />
+        android:id="@+id/nextBtn"
+        android:text="Suivant" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/nearestRestaurant"/>
+        android:id="@+id/restaurantName"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/distanceToRestaurant"/>
 
 </LinearLayout>

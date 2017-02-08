@@ -79,6 +79,32 @@ public class DAORestaurant extends DAOBase {
         return result;
     }
 
+    public Restaurant getRestaurant(long id) {
+
+        Restaurant result = null;
+        DAOMeal mealDBHelper = new DAOMeal(db);
+
+        Cursor cursor = db.query(Restaurant.TABLE_NAME, null, Restaurant.ID + " = ?", new String[] {Long.toString(id)}, null, null, null);
+
+        if(cursor.moveToNext()) {
+            result = new Restaurant();
+
+            result.setId(cursor.getInt(cursor.getColumnIndex(Restaurant.ID)));
+            result.setName(cursor.getString(cursor.getColumnIndex(Restaurant.NAME)));
+            result.setLongitude(cursor.getDouble(cursor.getColumnIndex(Restaurant.LONGITUDE)));
+            result.setLatitude(cursor.getDouble(cursor.getColumnIndex(Restaurant.LATITUDE)));
+
+            // Get all of the meals eaten in this restaurant by the user
+            List<Meal> meals = mealDBHelper.getRestaurantMeals(result.getId());
+            result.setMeals(meals);
+
+            // Set the mark of the restaurant by getting an average of the meal's mark of the restaurant
+            result.setMark(getMarkFromMeals(meals));
+        }
+
+        return result;
+    }
+
     private int getMarkFromMeals(List<Meal> meals) {
 
         int mark = 0;
