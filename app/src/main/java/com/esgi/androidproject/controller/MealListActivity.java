@@ -20,6 +20,7 @@ import com.esgi.androidproject.controller.fragment.MealCardFragment;
 import com.esgi.androidproject.controller.fragment.MealFormFragment;
 import com.esgi.androidproject.controller.fragment.OptionPageFragment;
 import com.esgi.androidproject.controller.fragment.SharePageFragment;
+import com.esgi.androidproject.model.Meal;
 import com.esgi.androidproject.model.Restaurant;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -31,11 +32,13 @@ public class MealListActivity extends FragmentActivity {
 
     private PagerAdapter mPagerAdapter;
     private Restaurant restaurant;
+    private Meal givenMeal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Bundle b = getIntent().getExtras();
         this.restaurant = (Restaurant) b.getSerializable("restaurant");
+        System.out.println(restaurant.getId());
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.meals_list);
@@ -48,7 +51,18 @@ public class MealListActivity extends FragmentActivity {
         indicator.setViewPager(pager);
     }
 
+    public Restaurant getRestaurant(){
+        return this.restaurant;
+    }
+
+    public Meal getGivenMeal(){
+        return this.givenMeal;
+    }
+
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+
+        Bundle bundle;
+
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -57,6 +71,7 @@ public class MealListActivity extends FragmentActivity {
         public Fragment getItem(int position) {
             int mealsNumber = restaurant.getMeals().size();
             if(position < mealsNumber){
+                givenMeal = restaurant.getMeals().get(position);
                 return new MealCardFragment();
             } else {
                 return new MealFormFragment();

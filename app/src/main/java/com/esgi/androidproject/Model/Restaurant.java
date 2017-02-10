@@ -122,6 +122,6 @@ public class Restaurant implements Serializable {
     @Override
     public String toString() {
 
-        return name + " - " + getStarsMark();
+        return name + " - " + String.valueOf(id) + " - " + getStarsMark();
     }
 }

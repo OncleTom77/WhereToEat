@@ -21,7 +21,7 @@ public class Meal implements Serializable {
     public static final String DESSERT = "DESSERT";
     public static final String DRINK = "DRINK";
     public static final String COMMENT = "COMMENT";
-    public static final String DATE = "DATE";
+    public static final String DATE = "DATE_MEAL";
     public static final String DB_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
             ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             ID_USER + " INTEGER, " +
@@ -34,7 +34,7 @@ public class Meal implements Serializable {
             DESSERT + " VARCHAR, " +
             DRINK + " VARCHAR, " +
             COMMENT + " VARCHAR" +
-            DATE + " DATETIME" +
+            DATE + " VARCHAR" +
             ")";
 
     /**
@@ -92,9 +92,7 @@ public class Meal implements Serializable {
      */
     private String comment;
 
-    private Date date;
-
-
+    private String date;
 
     public Meal() {
     }
@@ -189,7 +187,7 @@ public class Meal implements Serializable {
         this.comment = comment;
     }
 
-    public Date getDate() {return date;}
+    public String getDate() {return date;}
 
-    public void setDate(Date date) {this.date = date;}
+    public void setDate(String date) {this.date = date;}
 }
