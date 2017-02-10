@@ -7,12 +7,14 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -31,13 +33,15 @@ import static android.content.Context.LOCATION_SERVICE;
 
 public class WhereToEatWidget extends AppWidgetProvider {
 
-    private static final String UPDATE_ACTION = "UPDATE_WIDGET";
+    private static final String NEAREST_ACTION = "UPDATE_NEAREST_WIDGET";
+    private static final String NEXT_ACTION = "UPDATE_NEXT_WIDGET";
     private static final long LOCATION_REFRESH_TIME = 1000;
-    private static final float LOCATION_REFRESH_DISTANCE = 0;
+    private static final float LOCATION_REFRESH_DISTANCE = 1;
 
     public WhereToEatWidget() {
     }
 
+    /*
     public static void configureWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Object valueFromConfiguration) {
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
@@ -49,7 +53,7 @@ public class WhereToEatWidget extends AppWidgetProvider {
         remoteViews.setOnClickPendingIntent(R.id.buttonBottom, pendingIntent);
 
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
-    }
+    }*/
 
     @Override
     public void onEnabled(final Context context) {
@@ -60,44 +64,51 @@ public class WhereToEatWidget extends AppWidgetProvider {
     public void onUpdate(final Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
 
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         LocationManager mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         Location lastLocation;
+        Restaurant restaurant;
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             lastLocation = null;
+            restaurant = null;
         } else {
-            Log.d("WIDGET", "LOCATION LISTENER SET");
+            // Set a listener on the location changes
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
                     LOCATION_REFRESH_DISTANCE, new LocationListener() {
 
                         @Override
                         public void onLocationChanged(Location location) {
-                            updateDistanceWidget(context, location);
+                            updateDistanceWidget(context, location, null);
                         }
 
                         @Override
                         public void onStatusChanged(String provider, int status, Bundle extras) {
-
                         }
 
                         @Override
                         public void onProviderEnabled(String provider) {
-
                         }
 
                         @Override
                         public void onProviderDisabled(String provider) {
-
                         }
                     });
             lastLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            Log.d("WIDGET", lastLocation.toString());
+            restaurant = getNearestRestaurant(context, lastLocation);
         }
 
-        // Set the listener on the button. When triggered, the onReceive method is called
+        // Set listeners on the buttons to get the nearest or the next nearest restaurant. When triggered, the onReceive method is called
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-        remoteViews.setOnClickPendingIntent(R.id.buttonTop, getPendingSelfIntent(context, UPDATE_ACTION, lastLocation));
+        remoteViews.setOnClickPendingIntent(R.id.nearestBtn, getPendingSelfIntent(context, NEAREST_ACTION));
+        remoteViews.setOnClickPendingIntent(R.id.nextBtn, getPendingSelfIntent(context, NEXT_ACTION));
+
+        // Save the the nearest restaurant
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong("idRes", (restaurant != null) ? restaurant.getId() : -1);
+        editor.apply();
+
         appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
     }
 
@@ -105,34 +116,75 @@ public class WhereToEatWidget extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
 
-        if(UPDATE_ACTION.equals(intent.getAction())) {
-            Location location = intent.getParcelableExtra("location");
-            updateDistanceWidget(context, location);
+        if(NEAREST_ACTION.equals(intent.getAction()) || NEXT_ACTION.equals(intent.getAction())) {
+
+            LocationManager locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+            Location lastLocation = null;
+            Restaurant restaurant = null;
+
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                    || ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+                lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+                if (NEAREST_ACTION.equals(intent.getAction())) {
+                    restaurant = getNearestRestaurant(context, lastLocation);
+                } else {
+                    restaurant = getNextNearestRestaurant(context, lastLocation);
+                }
+
+                // Save the the current restaurant
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putLong("idRes", (restaurant != null) ? restaurant.getId() : -1);
+                editor.apply();
+            }
+
+            updateDistanceWidget(context, lastLocation, restaurant);
         }
     }
 
-    protected PendingIntent getPendingSelfIntent(Context context, String action, Location lastLocation) {
+    protected PendingIntent getPendingSelfIntent(Context context, String action) {
         Intent intent = new Intent(context, getClass());
         intent.setAction(action);
-        intent.putExtra("location", lastLocation);
+        //intent.putExtra("restaurant", restaurant);
+        //intent.putExtra("location", lastLocation);
         return PendingIntent.getBroadcast(context, 0, intent, 0);
     }
 
-    private void updateDistanceWidget(Context context, Location location) {
+    private void updateDistanceWidget(Context context, Location location, Restaurant restaurant) {
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
         ComponentName watchWidget = new ComponentName(context, WhereToEatWidget.class);
+        String name = "...";
+        String remainingDistance = "Position inconnue...";
 
         if(location != null) {
-            Restaurant nearestRestaurant = getNearestRestaurant(context, location);
-            float distance = getDistanceFromRestaurant(location, nearestRestaurant);
+            if(restaurant == null) {
+                // Get the restaurant we want to update the distance from the SharedPreferences
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                long idRes = sharedPreferences.getLong("idRes", -1);
 
-            remoteViews.setTextViewText(R.id.nearestRestaurant, nearestRestaurant.getName() + " : " + distance + " mètres restants");
-        } else {
-            remoteViews.setTextViewText(R.id.nearestRestaurant, "Position inconnue...");
+                if(idRes > 0) {
+                    DAORestaurant daoRestaurant = new DAORestaurant(context);
+                    restaurant = daoRestaurant.getRestaurant(idRes);
+                    daoRestaurant.close();
+                }
+            }
+
+            if(restaurant != null) {
+                float distance = getDistanceFromRestaurant(location, restaurant);
+
+                name = restaurant.getName();
+                remainingDistance = distance + " mètres restants";
+            } else {
+                remainingDistance = "Aucun restaurant enregistré...";
+            }
         }
 
+        remoteViews.setTextViewText(R.id.restaurantName, name);
+        remoteViews.setTextViewText(R.id.distanceToRestaurant, remainingDistance);
         appWidgetManager.updateAppWidget(watchWidget, remoteViews);
     }
 
@@ -164,5 +216,36 @@ public class WhereToEatWidget extends AppWidgetProvider {
         }
 
         return nearestRestaurant;
+    }
+
+    private Restaurant getNextNearestRestaurant(Context context, Location location) {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        long idRes = sharedPreferences.getLong("idRes", -1);
+
+        if(idRes < 0) {
+            return getNearestRestaurant(context, location);
+        }
+
+        DAORestaurant daoRestaurant = new DAORestaurant(context);
+        List<Restaurant> restaurants = daoRestaurant.getRestaurants();
+        Restaurant currentRestaurant = daoRestaurant.getRestaurant(idRes);
+        daoRestaurant.close();
+
+        Restaurant newRestaurant = null;
+        float currentDistance = getDistanceFromRestaurant(location, currentRestaurant);
+        float newDistance = Float.MAX_VALUE;
+
+        for(Restaurant res : restaurants) {
+            float distance = getDistanceFromRestaurant(location, res);
+
+            if(distance < newDistance && distance > currentDistance) {
+                newDistance = distance;
+                newRestaurant = res;
+            }
+        }
+
+        // If the current restaurant is the farthest one, return the nearest restaurant
+        return (newRestaurant != null) ? newRestaurant : getNearestRestaurant(context, location);
     }
 }

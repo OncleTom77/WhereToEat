@@ -66,7 +66,7 @@ public class WidgetConfigureActivity extends AppCompatActivity {
         Object o = editText.getText().toString();
 
         // Send it to the widget
-        WhereToEatWidget.configureWidget(this, AppWidgetManager.getInstance(this), widgetId, o);
+        //WhereToEatWidget.configureWidget(this, AppWidgetManager.getInstance(this), widgetId, o);
 
         Intent resultValue = new Intent();
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
