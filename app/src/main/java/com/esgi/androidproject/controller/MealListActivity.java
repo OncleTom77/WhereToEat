@@ -32,7 +32,7 @@ public class MealListActivity extends FragmentActivity {
 
     private PagerAdapter mPagerAdapter;
     private Restaurant restaurant;
-    private Meal givenMeal;
+    private int givenMeal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class MealListActivity extends FragmentActivity {
         return this.restaurant;
     }
 
-    public Meal getGivenMeal(){
+    public int getGivenMeal(){
         return this.givenMeal;
     }
 
@@ -71,7 +71,7 @@ public class MealListActivity extends FragmentActivity {
         public Fragment getItem(int position) {
             int mealsNumber = restaurant.getMeals().size();
             if(position < mealsNumber){
-                givenMeal = restaurant.getMeals().get(position);
+                givenMeal = position;
                 return new MealCardFragment();
             } else {
                 return new MealFormFragment();

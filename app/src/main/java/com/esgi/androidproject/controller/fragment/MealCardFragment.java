@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.esgi.androidproject.R;
 import com.esgi.androidproject.controller.MealListActivity;
 import com.esgi.androidproject.model.Meal;
+import com.esgi.androidproject.model.Restaurant;
 
 import org.w3c.dom.Text;
 
@@ -19,6 +20,7 @@ import org.w3c.dom.Text;
 
 public class MealCardFragment extends Fragment {
 
+    Restaurant restaurant;
     Meal meal;
 
     @Override
@@ -26,13 +28,15 @@ public class MealCardFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.meal_card, container, false);
 
         MealListActivity mla = (MealListActivity) getActivity();
-        meal = mla.getGivenMeal();
+        int givenMeal = mla.getGivenMeal();
+        restaurant = mla.getRestaurant();
+        meal = restaurant.getMeals().get(givenMeal);
 
         TextView mealRestaurantTitle = (TextView) rootView.findViewById(R.id.restaurant_title);
-        mealRestaurantTitle.setText(getActivity().getIntent().getExtras().getString("restaurant_name"));
+        mealRestaurantTitle.setText(restaurant.getName());
 
         TextView mealTitle = (TextView) rootView.findViewById(R.id.meal_title);
-        String title = "Repas du"+"aujourd'hui";
+        String title = "Repas du "+"aujourd'hui";
         mealTitle.setText(title);
 
         TextView mealName = (TextView) rootView.findViewById(R.id.meal_name);
