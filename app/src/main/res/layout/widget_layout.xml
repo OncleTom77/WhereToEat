@@ -4,26 +4,30 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark" >
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/restaurantName"
+        android:textSize="30sp"
+        android:textStyle="normal|bold"
+        android:textAlignment="center" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/distanceToRestaurant"
+        android:textSize="25sp" />
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/nearestBtn"
-        android:text="Le plus proche" />
+        android:text="Actualiser la distance du restaurant" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/nextBtn"
-        android:text="Suivant" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/restaurantName"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/distanceToRestaurant"/>
+        android:text="Distance du restaurant suivant" />
 
 </LinearLayout>

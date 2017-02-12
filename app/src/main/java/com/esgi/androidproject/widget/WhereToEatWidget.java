@@ -177,7 +177,7 @@ public class WhereToEatWidget extends AppWidgetProvider {
                 float distance = getDistanceFromRestaurant(location, restaurant);
 
                 name = restaurant.getName();
-                remainingDistance = distance + " mètres restants";
+                remainingDistance = distance + " mètres";
             } else {
                 remainingDistance = "Aucun restaurant enregistré...";
             }
