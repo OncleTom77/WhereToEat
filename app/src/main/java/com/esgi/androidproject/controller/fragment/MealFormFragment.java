@@ -69,9 +69,9 @@ public class MealFormFragment extends Fragment {
                 daomeal.insertMeal(meal);
                 daomeal.close();
 
-                Intent intent = getActivity().getIntent();
+                //Intent intent = getActivity().getIntent();
                 getActivity().finish();
-                startActivity(intent);
+                //startActivity(intent);
             }
 
             String getDate(){

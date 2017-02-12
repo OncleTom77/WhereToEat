@@ -1,5 +1,6 @@
 package com.esgi.androidproject.controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -82,5 +83,10 @@ public class MealListActivity extends FragmentActivity {
         public int getCount() {
             return restaurant.getMeals().size() + 1;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

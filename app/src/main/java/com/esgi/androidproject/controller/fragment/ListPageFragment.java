@@ -60,6 +60,12 @@ public class ListPageFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        updateList();
+    }
+
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 

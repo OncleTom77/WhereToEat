@@ -33,7 +33,7 @@ public class Meal implements Serializable {
             DISH + " VARCHAR, " +
             DESSERT + " VARCHAR, " +
             DRINK + " VARCHAR, " +
-            COMMENT + " VARCHAR" +
+            COMMENT + " VARCHAR, " +
             DATE + " VARCHAR" +
             ")";
 
