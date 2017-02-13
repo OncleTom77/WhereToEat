@@ -10,15 +10,26 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.esgi.androidproject.R;
 import com.esgi.androidproject.controller.MealListActivity;
 import com.esgi.androidproject.database.DAORestaurant;
+import com.esgi.androidproject.model.Meal;
 import com.esgi.androidproject.model.Restaurant;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ListPageFragment extends Fragment {
+
+    public enum SortMode {
+        ALPHABETICAL,
+        CLOSEST,
+        BEST,
+        CHEAPEST
+    }
 
     private ViewGroup viewGroup;
 
@@ -26,19 +37,63 @@ public class ListPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.list, container, false);
 
+        Spinner sortSpinner = (Spinner) rootView.findViewById(R.id.sort_spinner);
+        sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch(position){
+                    case 0:
+                        updateList(SortMode.ALPHABETICAL);
+                        break;
+
+                    case 1:
+                        updateList(SortMode.CLOSEST);
+                        break;
+
+                    case 2:
+                        updateList(SortMode.BEST);
+                        break;
+
+                    case 3:
+                        updateList(SortMode.CHEAPEST);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         this.viewGroup = rootView;
-        updateList();
+        updateList(SortMode.ALPHABETICAL);
 
         return rootView;
     }
 
-    public void updateList() {
+    public void updateList(SortMode mode) {
 
         ListView listView = (ListView) viewGroup.findViewById(R.id.listRestaurants);
 
         DAORestaurant daoRestaurant = new DAORestaurant(getActivity());
         List<Restaurant> list = daoRestaurant.getRestaurants();
         daoRestaurant.close();
+
+        switch (mode){
+            case ALPHABETICAL:
+                list = alphabeticalSort(list);
+                break;
+            case CLOSEST:
+                list = closestSort(list);
+                break;
+            case BEST:
+                list = bestSort(list);
+                break;
+            case CHEAPEST:
+                list = cheapestSort(list);
+                break;
+        }
 
         final ArrayAdapter<Restaurant> adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1,
@@ -59,10 +114,68 @@ public class ListPageFragment extends Fragment {
         listView.setAdapter(adapter);
     }
 
+    public List<Restaurant> alphabeticalSort(List<Restaurant> list){
+        Collections.sort(list, new Comparator<Restaurant>() {
+            @Override
+            public int compare(Restaurant r1, Restaurant r2) {
+                return r1.getName().compareTo(r2.getName());
+            }
+        });
+
+        return list;
+    }
+
+    public List<Restaurant> closestSort(List<Restaurant> list){
+        Collections.sort(list, new Comparator<Restaurant>() {
+            @Override
+            public int compare(Restaurant r1, Restaurant r2) {
+                return r1.getName().compareTo(r2.getName());
+            }
+        });
+
+        return list;
+    }
+
+    public List<Restaurant> bestSort(List<Restaurant> list){
+        Collections.sort(list, new Comparator<Restaurant>() {
+            @Override
+            public int compare(Restaurant r1, Restaurant r2) {
+                return r1.getMark() >= r2.getMark() ? -1 : 1;
+            }
+        });
+
+        return list;
+    }
+
+    public List<Restaurant> cheapestSort(List<Restaurant> list){
+        Collections.sort(list, new Comparator<Restaurant>() {
+            @Override
+            public int compare(Restaurant r1, Restaurant r2) {
+                double price_r1 = getAverageMealPrice(r1);
+                double price_r2 = getAverageMealPrice(r2);
+
+                return price_r1 >= price_r2 ? 1 : -1;
+            }
+        });
+
+        return list;
+    }
+
+    public double getAverageMealPrice(Restaurant r){
+        double sum = 0;
+        int number = 0;
+        for(Meal m : r.getMeals()){
+            sum += m.getPrice();
+            number++;
+        }
+
+        return sum/number;
+    }
+
     @Override
     public void onResume() {
         super.onResume();
-        updateList();
+        updateList(SortMode.ALPHABETICAL);
     }
 
     @Override
@@ -70,7 +183,7 @@ public class ListPageFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
 
         if(isVisibleToUser) {
-            updateList();
+            updateList(SortMode.ALPHABETICAL);
         }
     }
 }

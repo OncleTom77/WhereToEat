@@ -15,10 +15,10 @@
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@android:color/white"/>
 
     <EditText
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
@@ -26,16 +26,17 @@
         android:id="@+id/editText" />
 
     <Spinner
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/sortSpinner"/>
+        android:id="@+id/sort_spinner"
+        android:entries="@array/sortSpinner" />
 
     <View
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@android:color/white"/>
 
     <ListView
         android:layout_marginTop="5dp"
