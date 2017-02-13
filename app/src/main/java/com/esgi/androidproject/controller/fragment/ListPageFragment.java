@@ -1,14 +1,16 @@
 package com.esgi.androidproject.controller.fragment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -31,13 +33,18 @@ public class ListPageFragment extends Fragment {
         CHEAPEST
     }
 
+    private EditText inputSearch;
+
     private ViewGroup viewGroup;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.list, container, false);
 
+        inputSearch = (EditText) rootView.findViewById(R.id.input_search);
+
         Spinner sortSpinner = (Spinner) rootView.findViewById(R.id.sort_spinner);
+
         sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -98,6 +105,24 @@ public class ListPageFragment extends Fragment {
         final ArrayAdapter<Restaurant> adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1,
                 list);
+
+        inputSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s != "")
+                    adapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
