@@ -11,29 +11,34 @@
         android:textSize="30sp"
         android:textAlignment="center"/>
 
-    <LinearLayout
+    <View
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
+    <EditText
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="5dp">
+        android:inputType="textPersonName"
+        android:hint="@string/search_hint"
+        android:id="@+id/editText" />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:inputType="textPersonName"
-            android:hint="@string/search_hint"
-            android:id="@+id/editText"
-            android:layout_weight="8" />
+    <Spinner
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/sortSpinner"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/filter"
-            android:layout_weight="1"/>
-
-    </LinearLayout>
+    <View
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
 
     <ListView
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/listRestaurants">

@@ -8,4 +8,12 @@
         <item>4</item>
         <item>5</item>
     </string-array>
+    
+    <string-array name="sortSpinner">
+        <item>Trier par nom</item>
+        <item>Trier par distance</item>
+        <item>Trier par note</item>
+        <item>Trier par prix</item>
+        <item>Trier par date</item>
+    </string-array>
 </resources>
