@@ -24,6 +24,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginTop="10dp"
             android:background="@android:color/darker_gray"/>
 
         <TextView
@@ -31,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/meal_title"
+            android:layout_marginTop="10dp"
             android:textSize="30sp" />
 
         <EditText
