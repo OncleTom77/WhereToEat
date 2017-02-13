@@ -1,8 +1,13 @@
 package com.esgi.androidproject.controller.fragment;
 
+import android.Manifest;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -89,9 +94,10 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public void onResume() {
         super.onResume();
+
         //if (mMap == null) {
-          //  mMap = mapFragment.getMap();
-            //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
+        //  mMap = mapFragment.getMap();
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
         //}
     }
 
@@ -114,6 +120,72 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
                 */
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        googleApiClient.connect();
+    }
+
+    @Override
+    public void onStop() {
+        googleApiClient.disconnect();
+        super.onStop();
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+     * we just add a marker near Sydney, Australia.
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Add a marker in Sydney and move the camera
+        //LatLng sydney = new LatLng(-34, 151);
+        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        loadRestaurants();
+
+        configureGoogleMap();
+    }
+
+    private void configureOption() {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        UiSettings settings = mMap.getUiSettings();
+
+        if(sharedPreferences.getBoolean("displayMapBtn", true)) {
+            settings.setMyLocationButtonEnabled(true);
+            settings.setCompassEnabled(true);
+            settings.setZoomControlsEnabled(true);
+        } else {
+            settings.setMyLocationButtonEnabled(false);
+            settings.setCompassEnabled(false);
+            settings.setZoomControlsEnabled(false);
+        }
+    }
+
     private void configureGoogleMap() {
 
         View view = getActivity().getLayoutInflater().inflate(R.layout.google_map_popup, null);
@@ -121,14 +193,12 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
 
         settings.setAllGesturesEnabled(true);
         settings.setMapToolbarEnabled(false);
-        settings.setMyLocationButtonEnabled(true);
-        settings.setCompassEnabled(true);
-        settings.setZoomControlsEnabled(true);
 
-        try {
+        configureOption();
+
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
-        } catch (SecurityException e) {
-
         }
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -226,56 +296,6 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
                 DataBufferUtils.freezeAndClose(predictionsBuffer);
             }
         });
-    }
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        //LatLng sydney = new LatLng(-34, 151);
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-        loadRestaurants();
-
-        configureGoogleMap();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        googleApiClient.connect();
-    }
-
-    @Override
-    public void onStop() {
-        googleApiClient.disconnect();
-        super.onStop();
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 
     public void loadRestaurants() {

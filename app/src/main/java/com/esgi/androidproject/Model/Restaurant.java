@@ -1,5 +1,11 @@
 package com.esgi.androidproject.model;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.support.v4.app.ActivityCompat;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -54,10 +60,8 @@ public class Restaurant implements Serializable {
     private List<Meal> meals;
 
 
-
     public Restaurant() {
     }
-
 
 
     public long getId() {
@@ -83,7 +87,7 @@ public class Restaurant implements Serializable {
     public String getStarsMark() {
         String stars = "";
 
-        for(int i=1; i<=5; i++) {
+        for (int i = 1; i <= 5; i++) {
             stars += (mark >= i) ? "★" : "☆";
         }
 

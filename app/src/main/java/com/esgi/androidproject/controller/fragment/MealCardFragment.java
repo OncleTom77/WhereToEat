@@ -36,7 +36,7 @@ public class MealCardFragment extends Fragment {
         mealRestaurantTitle.setText(restaurant.getName());
 
         TextView mealTitle = (TextView) rootView.findViewById(R.id.meal_title);
-        String title = "Repas du "+"aujourd'hui";
+        String title = "Repas du "+ meal.getDate();
         mealTitle.setText(title);
 
         TextView mealName = (TextView) rootView.findViewById(R.id.meal_name);

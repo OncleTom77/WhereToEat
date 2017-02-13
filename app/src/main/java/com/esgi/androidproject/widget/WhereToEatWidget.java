@@ -157,13 +157,13 @@ public class WhereToEatWidget extends AppWidgetProvider {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
         ComponentName watchWidget = new ComponentName(context, WhereToEatWidget.class);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String name = "...";
         String remainingDistance = "Position inconnue...";
 
         if(location != null) {
             if(restaurant == null) {
                 // Get the restaurant we want to update the distance from the SharedPreferences
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
                 long idRes = sharedPreferences.getLong("idRes", -1);
 
                 if(idRes > 0) {
@@ -175,9 +175,10 @@ public class WhereToEatWidget extends AppWidgetProvider {
 
             if(restaurant != null) {
                 float distance = getDistanceFromRestaurant(location, restaurant);
+                boolean milesUnit = sharedPreferences.getBoolean("milesUnit", false);
+                remainingDistance = getFormatDistance(distance, milesUnit);
 
                 name = restaurant.getName();
-                remainingDistance = distance + " mètres";
             } else {
                 remainingDistance = "Aucun restaurant enregistré...";
             }
@@ -247,5 +248,26 @@ public class WhereToEatWidget extends AppWidgetProvider {
 
         // If the current restaurant is the farthest one, return the nearest restaurant
         return (newRestaurant != null) ? newRestaurant : getNearestRestaurant(context, location);
+    }
+
+    private String getFormatDistance(float distance, boolean milesUnit) {
+        String result;
+
+        if(milesUnit) {
+            distance *= 3.28084;
+            if(distance > 5280) {
+                result = distance/5280 + " miles";
+            } else {
+                result = distance + " pieds";
+            }
+        } else {
+            if(distance > 1000) {
+                result = distance/1000 + " kilomètres";
+            } else {
+                result = distance + " mètres";
+            }
+        }
+
+        return result;
     }
 }
