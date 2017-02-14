@@ -56,22 +56,25 @@ public class MealFormFragment extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Meal meal = new Meal();
+                if(!"".equals(getName()) && getPrice() != -1.0 && "".equals(getComment())) {
 
-                meal.setIdRestaurant(restaurant_id);
-                meal.setDate(getDate());
-                meal.setName(getName());
-                meal.setPrice(getPrice());
-                meal.setComment(getComment());
-                meal.setMark(getMark());
+                    Meal meal = new Meal();
 
-                DAOMeal daomeal = new DAOMeal(getActivity());
-                daomeal.insertMeal(meal);
-                daomeal.close();
+                    meal.setIdRestaurant(restaurant_id);
+                    meal.setDate(getDate());
+                    meal.setName(getName());
+                    meal.setPrice(getPrice());
+                    meal.setComment(getComment());
+                    meal.setMark(getMark());
 
-                //Intent intent = getActivity().getIntent();
-                getActivity().finish();
-                //startActivity(intent);
+                    DAOMeal daomeal = new DAOMeal(getActivity());
+                    daomeal.insertMeal(meal);
+                    daomeal.close();
+
+                    //Intent intent = getActivity().getIntent();
+                    getActivity().finish();
+                    //startActivity(intent);
+                }
             }
 
             String getDate(){
@@ -85,7 +88,11 @@ public class MealFormFragment extends Fragment {
             }
 
             Double getPrice(){
-                return Double.valueOf(((EditText) rootView.findViewById(R.id.meal_price)).getText().toString());
+                String price = ((EditText) rootView.findViewById(R.id.meal_price)).getText().toString();
+                if(!"".equals(price))
+                    return Double.valueOf(price);
+                else
+                    return -1.0;
             }
 
             String getComment(){
