@@ -25,12 +25,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/nearestBtn"
         android:text="Actualiser la distance du restaurant"
+        android:drawableLeft="@drawable/reset"
         android:textSize="10sp"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/nextBtn"
+        android:drawableLeft="@drawable/next"
         android:text="Distance du restaurant suivant"
         android:textSize="10sp"/>
 

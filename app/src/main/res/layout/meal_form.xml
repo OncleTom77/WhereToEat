@@ -95,7 +95,8 @@
             android:layout_height="wrap_content"
             android:text="@string/add_the_meal"
             android:layout_gravity="bottom"
-            android:id="@+id/add_meal_form"/>
+            android:id="@+id/add_meal_form"
+            android:drawableLeft="@drawable/restaurant_icon"/>
 
     </LinearLayout>
 </LinearLayout>

@@ -76,6 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Sauvegarder les options"
-            android:id="@+id/saveOptionsBtn"/>
+            android:id="@+id/saveOptionsBtn"
+            android:drawableLeft="@drawable/save"/>
     </LinearLayout>
 </LinearLayout>

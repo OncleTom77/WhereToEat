@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+android:orientation="vertical"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:id="@+id/map_layout">
+
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="0px"
+    android:id="@+id/map_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_weight="8">
+
+    <!-- The map fragments will go here -->
+</RelativeLayout>
+
+<LinearLayout
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/map_layout">
+    android:layout_height="0px"
+    android:layout_weight="1">
 
-    <RelativeLayout android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:id="@+id/map_container"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_weight="8">
-
-        <!-- The map fragments will go here -->
-    </RelativeLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
+    <Button
         android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Ajouter un restaurant"
-            android:id="@+id/addRestaurant"/>
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:text="Ajouter un restaurant"
+        android:drawableLeft="@drawable/restaurant_icon"
+        android:id="@+id/addRestaurant"/>
+</LinearLayout>
 
 </LinearLayout>
 

@@ -23,5 +23,6 @@
         android:layout_height="wrap_content"
         android:text="@string/add_the_restaurant"
         android:layout_gravity="bottom"
-        android:id="@+id/add_restaurant_form"/>
+        android:id="@+id/add_restaurant_form"
+        android:drawableLeft="@drawable/add"/>
 </LinearLayout>
