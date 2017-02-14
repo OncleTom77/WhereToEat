@@ -172,7 +172,7 @@ public class WhereToEatWidget extends AppWidgetProvider {
             }
 
             if(restaurant != null) {
-                float distance = getDistanceFromRestaurant(location, restaurant);
+                float distance = location.distanceTo(restaurant.getLocationFromLatLng());
                 boolean milesUnit = sharedPreferences.getBoolean("milesUnit", false);
                 remainingDistance = getFormatDistance(distance, milesUnit);
 
@@ -187,15 +187,6 @@ public class WhereToEatWidget extends AppWidgetProvider {
         appWidgetManager.updateAppWidget(watchWidget, remoteViews);
     }
 
-    private float getDistanceFromRestaurant(Location location, Restaurant restaurant) {
-
-        Location resLocation = new Location("");
-        resLocation.setLatitude(restaurant.getLatitude());
-        resLocation.setLongitude(restaurant.getLongitude());
-
-        return location.distanceTo(resLocation);
-    }
-
     private Restaurant getNearestRestaurant(Context context, Location location) {
 
         DAORestaurant daoRestaurant = new DAORestaurant(context);
@@ -206,7 +197,7 @@ public class WhereToEatWidget extends AppWidgetProvider {
         float shortestDistance = Float.MAX_VALUE;
 
         for(Restaurant res : restaurants) {
-            float newDistance = getDistanceFromRestaurant(location, res);
+            float newDistance = location.distanceTo(res.getLocationFromLatLng());
 
             if(newDistance < shortestDistance) {
                 shortestDistance = newDistance;
@@ -232,11 +223,11 @@ public class WhereToEatWidget extends AppWidgetProvider {
         daoRestaurant.close();
 
         Restaurant newRestaurant = null;
-        float currentDistance = getDistanceFromRestaurant(location, currentRestaurant);
+        float currentDistance = location.distanceTo(currentRestaurant.getLocationFromLatLng());
         float newDistance = Float.MAX_VALUE;
 
         for(Restaurant res : restaurants) {
-            float distance = getDistanceFromRestaurant(location, res);
+            float distance = location.distanceTo(res.getLocationFromLatLng());
 
             if(distance < newDistance && distance > currentDistance) {
                 newDistance = distance;

@@ -55,6 +55,8 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
 
     private boolean isAdding;
 
+    private Button addBtn;
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -80,11 +82,14 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(map, container, false);
 
-        Button btn = (Button) rootView.findViewById(R.id.addRestaurant);
-        btn.setOnClickListener(new View.OnClickListener() {
+        this.addBtn = (Button) rootView.findViewById(R.id.addRestaurant);
+        addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isAdding = true;
+
+                addBtn.setText(R.string.click_map_btn);
+                addBtn.setEnabled(false);
             }
         });
 
@@ -225,6 +230,8 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
                             .commit();
 
                     isAdding = false;
+                    addBtn.setText(R.string.add_map_btn);
+                    addBtn.setEnabled(true);
                 }
             }
         });

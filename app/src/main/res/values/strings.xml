@@ -15,4 +15,6 @@
     <string name="restaurant_title_meal_form">Nom du restaurant</string>
     <string name="mark">Note :</string>
     <string name="option_title">Options</string>
+    <string name="add_map_btn">Ajouter un restaurant</string>
+    <string name="click_map_btn">Cliquez sur la carte</string>
 </resources>
