@@ -1,6 +1,7 @@
 package com.esgi.androidproject.controller.fragment;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.Button;
 
 import com.esgi.androidproject.controller.GoogleMapPopup;
 import com.esgi.androidproject.R;
+import com.esgi.androidproject.controller.MealListActivity;
 import com.esgi.androidproject.database.DAORestaurant;
 import com.esgi.androidproject.model.Restaurant;
 import com.google.android.gms.common.ConnectionResult;
@@ -56,6 +58,8 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
     private boolean isAdding;
 
     private Button addBtn;
+
+    private List<Restaurant> restaurants;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -253,7 +257,19 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
 
                 // START ACTIVITY OF ALL MEALS OF THE RESTAURANT WITH ID = id
                 if(id != -1) {
-
+                    Intent intent = new Intent(getActivity(), MealListActivity.class);
+                    Restaurant restaurantToShow = null;
+                    for(Restaurant r : restaurants) {
+                        if(r.getId() == id){
+                            restaurantToShow = r;
+                        }
+                    }
+                    if(restaurantToShow != null) {
+                        Bundle b = new Bundle();
+                        b.putSerializable("restaurant", restaurantToShow);
+                        intent.putExtras(b);
+                        startActivity(intent);
+                    }
                 }
             }
         });
@@ -309,7 +325,7 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
 
         DAORestaurant daoRestaurant = new DAORestaurant(getActivity());
 
-        List<Restaurant> restaurants = daoRestaurant.getRestaurants();
+        restaurants = daoRestaurant.getRestaurants();
         LatLng latLng = null;
 
         for(Restaurant res : restaurants) {
