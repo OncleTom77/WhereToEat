@@ -1,7 +1,14 @@
 package com.esgi.androidproject.controller.fragment;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,6 +30,8 @@ import com.esgi.androidproject.model.Restaurant;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 public class ListPageFragment extends Fragment {
 
@@ -48,7 +57,7 @@ public class ListPageFragment extends Fragment {
         sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch(position){
+                switch (position) {
                     case 0:
                         updateList(SortMode.ALPHABETICAL);
                         break;
@@ -86,6 +95,21 @@ public class ListPageFragment extends Fragment {
         DAORestaurant daoRestaurant = new DAORestaurant(getActivity());
         List<Restaurant> list = daoRestaurant.getRestaurants();
         daoRestaurant.close();
+
+        LocationManager mLocationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+            Location lastLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            boolean milesUnit = sharedPreferences.getBoolean("milesUnit", false);
+
+            // Update the distance and the distance unit in the restaurant
+            for(Restaurant res : list) {
+                res.setMilesUnit(milesUnit);
+                res.setDistanceFromUser(lastLocation.distanceTo(res.getLocationFromLatLng()));
+            }
+        }
 
         switch (mode){
             case ALPHABETICAL:
@@ -154,7 +178,7 @@ public class ListPageFragment extends Fragment {
         Collections.sort(list, new Comparator<Restaurant>() {
             @Override
             public int compare(Restaurant r1, Restaurant r2) {
-                return r1.getName().compareTo(r2.getName());
+                return r1.getDistanceFromUser() > r2.getDistanceFromUser() ? 1 : -1;
             }
         });
 

@@ -66,12 +66,10 @@ public class WhereToEatWidget extends AppWidgetProvider {
 
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         LocationManager mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
-        Location lastLocation;
         Restaurant restaurant;
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            lastLocation = null;
             restaurant = null;
         } else {
             // Set a listener on the location changes
@@ -95,7 +93,7 @@ public class WhereToEatWidget extends AppWidgetProvider {
                         public void onProviderDisabled(String provider) {
                         }
                     });
-            lastLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Location lastLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             restaurant = getNearestRestaurant(context, lastLocation);
         }
 
@@ -250,8 +248,12 @@ public class WhereToEatWidget extends AppWidgetProvider {
         return (newRestaurant != null) ? newRestaurant : getNearestRestaurant(context, location);
     }
 
-    private String getFormatDistance(float distance, boolean milesUnit) {
+    public static String getFormatDistance(float distance, boolean milesUnit) {
         String result;
+
+        if(distance < 0) {
+            return "distance inconnue";
+        }
 
         if(milesUnit) {
             distance *= 3.28084;

@@ -1,10 +1,10 @@
 package com.esgi.androidproject.model;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.location.Location;
-import android.location.LocationManager;
-import android.support.v4.app.ActivityCompat;
+import android.preference.PreferenceManager;
+
+import com.esgi.androidproject.widget.WhereToEatWidget;
 
 import java.io.Serializable;
 import java.util.List;
@@ -59,8 +59,19 @@ public class Restaurant implements Serializable {
      */
     private List<Meal> meals;
 
+    /**
+     * The indicator for displaying distance in miles or not.
+     */
+    private boolean milesUnit;
+
+    /**
+     * The distance between the user and the restaurant.
+     */
+    private float distanceFromUser;
+
 
     public Restaurant() {
+        this.distanceFromUser = -1;
     }
 
 
@@ -122,9 +133,32 @@ public class Restaurant implements Serializable {
         this.meals = meals;
     }
 
+    public void setMilesUnit(boolean milesUnit) {
+        this.milesUnit = milesUnit;
+    }
+
+    public float getDistanceFromUser() {
+        return distanceFromUser;
+    }
+
+    public void setDistanceFromUser(float distanceFromUser) {
+        this.distanceFromUser = distanceFromUser;
+    }
+
+    public Location getLocationFromLatLng() {
+
+        Location location = new Location("");
+        location.setLatitude(latitude);
+        location.setLongitude(longitude);
+
+        return location;
+    }
+
     @Override
     public String toString() {
 
-        return name + " - " + getStarsMark();
+        String strDistance = WhereToEatWidget.getFormatDistance(distanceFromUser, milesUnit);
+
+        return name + " - " + getStarsMark() + " - " + strDistance;
     }
 }
