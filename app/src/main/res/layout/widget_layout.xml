@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/restaurantName"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:textStyle="normal|bold"
         android:textAlignment="center" />
 
@@ -17,19 +17,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/distanceToRestaurant"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textAlignment="center"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/nearestBtn"
-        android:text="Actualiser la distance du restaurant" />
+        android:text="Actualiser la distance du restaurant"
+        android:textSize="10sp"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/nextBtn"
-        android:text="Distance du restaurant suivant" />
+        android:text="Distance du restaurant suivant"
+        android:textSize="10sp"/>
 
 </LinearLayout>

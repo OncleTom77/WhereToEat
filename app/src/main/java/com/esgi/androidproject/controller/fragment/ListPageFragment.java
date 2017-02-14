@@ -107,7 +107,12 @@ public class ListPageFragment extends Fragment {
             // Update the distance and the distance unit in the restaurant
             for(Restaurant res : list) {
                 res.setMilesUnit(milesUnit);
-                res.setDistanceFromUser(lastLocation.distanceTo(res.getLocationFromLatLng()));
+
+                if(lastLocation != null) {
+                    res.setDistanceFromUser(lastLocation.distanceTo(res.getLocationFromLatLng()));
+                } else {
+                    res.setDistanceFromUser(-1);
+                }
             }
         }
 
