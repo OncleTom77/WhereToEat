@@ -335,8 +335,8 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
 
             String jsonArgs = "{"
                     + "id: " + res.getId()
-                    + ", name: " + res.getName()
-                    + ", mark: " + res.getStarsMark()
+                    + ", name: '" + res.getName() + "'"
+                    + ", mark: '" + res.getStarsMark() + "'"
                     + "}";
             mMap.addMarker(new MarkerOptions()
                     .position(latLng)
