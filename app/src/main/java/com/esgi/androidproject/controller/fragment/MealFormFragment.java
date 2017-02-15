@@ -56,7 +56,7 @@ public class MealFormFragment extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!"".equals(getName()) && getPrice() != -1.0 && "".equals(getComment())) {
+                if(!"".equals(getName()) && getPrice() != -1.0 && !"".equals(getComment())) {
 
                     Meal meal = new Meal();
 
